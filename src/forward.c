@@ -6,12 +6,20 @@ void create_detector(char *cfgfile, char *weightfile, network **net) {
     set_batch_network(*net, 1);
 }
 
-void forward_detector(network *net, char *filename, float thresh, float hier_thresh, float nms, float **out, unsigned short *out_len) {
+void forward_detector(network *net, unsigned char *CHW, int c, int h, int w, float thresh, float hier_thresh, float nms, float **out, unsigned short *out_len) {
     // we prevent randomness in forward
     srand(0);
 
     // load and resize image
-    image im = load_image_color(filename, 0, 0);
+    image im;
+    im.c = c;
+    im.h = h;
+    im.w = w;
+    im.data = calloc(c*h*w, sizeof(float));
+    for (int i = 0; i < c*h*w; i++) {
+        im.data[i] = CHW[i] / 255.;
+    }
+
     image sized = letterbox_image(im, net->w, net->h);
 
     // predict
