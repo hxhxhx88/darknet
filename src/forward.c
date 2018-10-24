@@ -66,12 +66,12 @@ void forward_detector(network *net, unsigned char *CHW, int c, int h, int w, flo
         float bottom = (bbox.y + bbox.h/2.) * im.h;
 
         // set result
-        results[i * 6] = class;
-        results[i * 6+1] = best_prob;
-        results[i * 6+2] = left;
-        results[i * 6+3] = top;
-        results[i * 6+4] = right;
-        results[i * 6+5] = bottom;
+        results[*out_len] = class;
+        results[*out_len+1] = best_prob;
+        results[*out_len+2] = left;
+        results[*out_len+3] = top;
+        results[*out_len+4] = right;
+        results[*out_len+5] = bottom;
         (*out_len) += 6;
     }
 
