@@ -27,6 +27,7 @@ maxpool_layer make_maxpool_layer(int batch, int h, int w, int c, int size, int s
     l.w = w;
     l.c = c;
     l.pad = padding;
+    //refer to https://www.coursera.org/lecture/convolutional-neural-networks/pooling-layers-hELHk
     l.out_w = (w + 2*padding - size)/stride + 1;
     l.out_h = (h + 2*padding - size)/stride + 1;
     l.out_c = c;
