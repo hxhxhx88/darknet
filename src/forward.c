@@ -1,6 +1,17 @@
 #include "network.h"
 
-void create_detector(char *cfgfile, char *weightfile, network **net) {
+void create_detector(int xpu, char *cfgfile, char *weightfile, network **net) {
+#ifdef GPU
+    if (xpu < 0) {
+        // if compiled as GPU version, CPU is not supported, since this code sucks.
+        fprintf(stderr, "GPU version darknet does not support running on CPU\n");
+        exit(-1);
+    }
+#endif
+
+    // gpu_index is a global variable
+    gpu_index = xpu;
+
     // load the network
     *net = load_network(cfgfile, weightfile, 0);
     set_batch_network(*net, 1);
