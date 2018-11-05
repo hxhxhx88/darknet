@@ -99,4 +99,5 @@ void forward_detector(network *net, unsigned char *CHW, int c, int h, int w, flo
 
 void free_detector(network *net) {
     free_network(net);
+    cuda_reset();
 }
