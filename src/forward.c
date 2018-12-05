@@ -9,8 +9,7 @@ void create_detector(int xpu, char *cfgfile, char *weightfile, network **net) {
     }
 #endif
 
-    // gpu_index is a global variable
-    gpu_index = xpu;
+    cuda_set_device(xpu);
 
     // load the network
     *net = load_network(cfgfile, weightfile, 0);
