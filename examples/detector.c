@@ -417,7 +417,7 @@ void validate_detector(char *datacfg, char *cfgfile, char *weightfile, char *out
     int t;
 
     float thresh = .005;
-    float nms = 0.45;
+    float nms = .45;
 
     int nthreads = 4;
     image *val = calloc(nthreads, sizeof(image));
