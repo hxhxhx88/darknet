@@ -2,7 +2,7 @@
 #define FORWARD_H
 
 // Create a detector handle. `xpu` is the index of the GPU, or -1 indicating CPU.
-void create_detector(int xpu, char *cfgfile, char *weightfile, void **handle);
+int create_detector(int xpu, char *cfgfile, char *weightfile, void **handle);
 
 // Run a detection forward. If N objects are detected, `out_len` will be equal to 6N, and the `out` array will consist of N [label, prob, left, top, right, bottom]s.
 // Note that the input image must in CHW order.

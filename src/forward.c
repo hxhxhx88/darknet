@@ -1,6 +1,6 @@
 #include "network.h"
 
-void create_detector(int xpu, char *cfgfile, char *weightfile, network **net) {
+int create_detector(int xpu, char *cfgfile, char *weightfile, network **net) {
 #ifdef GPU
     if (xpu < 0) {
         // if compiled as GPU version, CPU is not supported, since this code sucks.
@@ -9,11 +9,16 @@ void create_detector(int xpu, char *cfgfile, char *weightfile, network **net) {
     }
 #endif
 
-    cuda_set_device(xpu);
+    int success = cuda_set_device(xpu);
+    if (success != 1) {
+        return success;
+    }
 
     // load the network
     *net = load_network(cfgfile, weightfile, 0);
     set_batch_network(*net, 1);
+
+    return 1;
 }
 
 void forward_detector(network *net, unsigned char *CHW, int c, int h, int w, float thresh, float hier_thresh, float nms, float **out, unsigned short *out_len) {
