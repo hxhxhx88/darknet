@@ -9,11 +9,11 @@ int gpu_index = 0;
 #include <stdlib.h>
 #include <time.h>
 
-void cuda_set_device(int n)
+int cuda_set_device(int n)
 {
     gpu_index = n;
     cudaError_t status = cudaSetDevice(n);
-    check_error(status);
+    return check_error2(status);
 }
 
 int cuda_get_device()
@@ -46,6 +46,25 @@ void check_error(cudaError_t status)
         snprintf(buffer, 256, "CUDA Error Prev: %s", s);
         error(buffer);
     } 
+}
+
+int check_error2(cudaError_t status)
+{
+    //cudaDeviceSynchronize();
+    cudaError_t status2 = cudaGetLastError();
+    if (status != cudaSuccess)
+    {   
+        const char *s = cudaGetErrorString(status);
+        printf("CUDA Error: %s\n", s);
+        return 0;
+    } 
+    if (status2 != cudaSuccess)
+    {   
+        const char *s = cudaGetErrorString(status);
+        printf("CUDA Error Prev: %s\n", s);
+        return 0;
+    }
+    return 1;
 }
 
 dim3 cuda_gridsize(size_t n){
